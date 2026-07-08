@@ -249,3 +249,43 @@ def permission_required(permission: str):
 
 
     return decorator
+
+一个简单地使用示例
+
+例如一个简单地后台接口:
+@timer
+@retry(
+    max_attempts=3,
+    delay=2
+)
+@permission_required(
+    "order:create"
+)
+def create_order(user, order_id):
+
+    print(
+        f"Create order {order_id}"
+    )
+
+    return True
+执行流程：
+请求进入
+
+ ↓
+
+权限校验
+(permission_required)
+
+ ↓
+
+失败自动重试
+(retry)
+
+ ↓
+
+记录耗时
+(timer)
+
+ ↓
+
+返回结果
